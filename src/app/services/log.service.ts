@@ -6,7 +6,6 @@ import { of } from 'rxjs/observable/of';
 import { Log } from '../models/log.interface';
 
 
-
 @Injectable()
 export class LogService {
 
@@ -15,18 +14,11 @@ export class LogService {
   selectedLog =  new BehaviorSubject<Log>( {id: null, text: '', date: null} );
 
   constructor() {
-    this.logs = [
-      // {
-      //   id: 2,
-      //   text: 'Add fix',
-      //   date: new Date()
-      // },
-      // {
-      //   id: 1,
-      //   text: 'Generate components',
-      //   date: new Date()
-      // },
-    ];
+    if (localStorage.getItem('logs') === null) {
+      this.logs = [];
+    } else {
+      this.logs = JSON.parse(localStorage.getItem('logs'));
+    }
   }
 
   getLogs (): Observable<Log[]> {
@@ -40,6 +32,7 @@ export class LogService {
       date: new Date()
     };
     this.logs.unshift(log);
+    localStorage.setItem('logs', JSON.stringify(this.logs));
     this.clearState();
   }
 
@@ -51,6 +44,7 @@ export class LogService {
     });
     log.id = this.logs[0].id + 1;
     this.logs.unshift(log);
+    localStorage.setItem('logs', JSON.stringify(this.logs));
     this.clearState();
   }
 
@@ -60,6 +54,7 @@ export class LogService {
         this.logs.splice(index, 1);
       }
     });
+    localStorage.setItem('logs', JSON.stringify(this.logs));
     this.clearState();
   }
 
