@@ -1,3 +1,15 @@
-<p>
-  logs works!
-</p>
+<ul class="list-group" *ngIf="loaded && logs.length > 0">
+  <li *ngFor="let log of logs" class="list-group-item d-flex justify-content-between align-items-center" [class.list-group-item-secondary]="log.id === selectedLog.id">
+    <a (click)="onSelect(log)" href="#" class="log-name">{{ log.text }}</a>
+    <span class="log-date mx-5">{{ log.date | date:'dd/MM/yy, hh:mm a' }}</span>
+    <i class="fa fa-remove" (click)="onDelete(log)"></i>
+  </li>
+</ul>
+
+<div *ngIf="loaded && logs.length == 0">
+  <h5>There are no log in the system</h5>
+</div>
+
+<div *ngIf="!loaded">
+  <h5>Loading...</h5>
+</div>

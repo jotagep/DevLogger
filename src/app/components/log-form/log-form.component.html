@@ -1,3 +1,11 @@
-<p>
-  log-form works!
-</p>
+<div class="card mb-3">
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input type="text" placeholder="Add a log..." class="form-control" [(ngModel)]="log.text" name="logText">
+      </div>
+      <input type="submit" [value]="isNew ? 'Add log' : 'Edit Log'" class="btn btn-secondary" [disabled]="!log.text">
+      <button type="button" class="btn btn-warning" [hidden]="!log.text" (click)="clear()">Clear</button>
+    </form>
+  </div>
+</div>
